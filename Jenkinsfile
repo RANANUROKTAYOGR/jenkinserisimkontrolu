@@ -26,6 +26,7 @@ pipeline {
                 echo 'Test passed. Deploying application...'
                 // Add deployment commands here
                 echo 'Deployment successful for https://example.com'
+                echo 'deneme '
             }
         }
     }
