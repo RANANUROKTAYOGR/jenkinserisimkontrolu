@@ -1,0 +1,21 @@
+#!/bin/sh
+# Prevent pushes to the 'test' branch
+# Usage: git config core.hooksPath .githooks
+
+refname=$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo "")
+if [ "$refname" = "test" ]; then
+  echo "Pushing to 'test' branch is forbidden. Push to 'main' instead."
+  exit 1
+fi
+
+# Also check incoming ref updates (for non-checked-out pushes)
+while read local_ref local_sha remote_ref remote_sha; do
+  branch=$(echo "$remote_ref" | sed 's|refs/heads/||')
+  if [ "$branch" = "test" ]; then
+    echo "Pushing to 'test' branch is forbidden. Push to 'main' instead."
+    exit 1
+  fi
+done
+
+exit 0
+
