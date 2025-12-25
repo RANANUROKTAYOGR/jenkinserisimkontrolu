@@ -4,8 +4,7 @@ pipeline {
     tools {
         // Jenkins Global Tool Configuration'da tanımlı Maven adı (Örn: 'Maven 3')
         // Eğer tanımlı değilse bu bloğu kaldırıp sistemdeki mvn komutunu kullanabilirsiniz.
-        maven 'Maven 3'
-        jdk 'Java 11'
+        maven 'M3'
     }
 
     stages {
