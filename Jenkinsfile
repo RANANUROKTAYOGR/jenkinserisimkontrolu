@@ -1,41 +1,53 @@
 pipeline {
     agent any
 
+    tools {
+        // Jenkins Global Tool Configuration'da tanımlı Maven adı (Örn: 'Maven 3')
+        // Eğer tanımlı değilse bu bloğu kaldırıp sistemdeki mvn komutunu kullanabilirsiniz.
+        maven 'Maven 3'
+        jdk 'Java 11'
+    }
+
     stages {
         stage('Checkout') {
             steps {
-                // In a real scenario, Jenkins handles checkout automatically if configured with SCM (Git)
-                // However, explicitly ensuring we have the latest code:
+                // Kodları SCM'den (Git vb.) çeker
                 checkout scm
-                echo 'Checkout completed.'
             }
         }
 
-        stage('Test') {
+        stage('Test & Access Check') {
             steps {
-                echo 'Running Unit Tests...'
-                // Run Maven tests
-                // Using 'bat' for Windows environment, use 'sh' for Linux
-                bat 'mvn test'
+                script {
+                    echo 'JUnit testi çalıştırılıyor ve example.com kontrol ediliyor...'
+                    // Maven test komutu. Eğer test fail olursa pipeline burada durur.
+                    sh 'mvn clean test'
+                }
+            }
+            post {
+                always {
+                    // Test sonuçlarını Jenkins arayüzüne bas
+                    junit 'target/surefire-reports/*.xml'
+                }
             }
         }
 
         stage('Deploy') {
-            // This stage only runs if previous stages (Test) are successful
+            // Bu aşama SADECE önceki 'Test' aşaması başarılı olursa çalışır.
             steps {
-                echo 'Test passed. Deploying application...'
-                // Add deployment commands here
-                echo 'Deployment successful for https://example.com'
+                echo 'Test Başarılı! Deploy işlemi başlatılıyor...'
+                // Buraya gerçek deploy komutlarınız gelecek (örn: scp, docker push, vb.)
+                sh 'echo "Deploy işlemi başarıyla tamamlandı."'
             }
         }
     }
 
     post {
         failure {
-            echo 'Pipeline failed! One or more tests failed.'
+            echo 'Pipeline FAIL oldu! Siteye erişilemediği için Deploy yapılmadı.'
         }
         success {
-            echo 'Pipeline executed successfully.'
+            echo 'Pipeline SUCCESS! Site erişilebilir ve Deploy yapıldı.'
         }
     }
 }
