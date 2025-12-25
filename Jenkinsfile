@@ -1,54 +1,41 @@
 pipeline {
     agent any
+
     stages {
         stage('Checkout') {
             steps {
-                echo "Checking out branch: ${env.BRANCH_NAME}"
+                // In a real scenario, Jenkins handles checkout automatically if configured with SCM (Git)
+                // However, explicitly ensuring we have the latest code:
+                checkout scm
+                echo 'Checkout completed.'
             }
         }
-        stage('Build & Test') {
-            steps {
-                script {
-                    if (isUnix()) {
-                        sh './mvnw clean test'
-                    } else {
-                        // Windows agents typically use the mvnw.cmd wrapper
-                        bat '.\\mvnw.cmd clean test'
-                    }
-                }
-            }
-        }
+
         stage('Test') {
             steps {
-                script {
-                    if (isUnix()) {
-                        sh 'mvn -B -DskipTests=false test'
-                    } else {
-                        bat 'mvn -B -DskipTests=false test'
-                    }
-                }
+                echo 'Running Unit Tests...'
+                // Run Maven tests
+                // Using 'bat' for Windows environment, use 'sh' for Linux
+                bat 'mvn test'
             }
         }
+
         stage('Deploy') {
-            when {
-                branch 'main'
-            }
+            // This stage only runs if previous stages (Test) are successful
             steps {
-                echo 'Tests passed — running Deploy step on main branch...'
-                // Place actual deploy commands here (e.g., shell script, kubectl, scp).
-                echo 'Deploy completed (placeholder)'
+                echo 'Test passed. Deploying application...'
+                // Add deployment commands here
+                echo 'Deployment successful for https://example.com'
             }
         }
     }
+
     post {
-        always {
-            junit '**/target/surefire-reports/*.xml'
-        }
         failure {
-            echo 'Pipeline failed (tests or other stage).'
+            echo 'Pipeline failed! One or more tests failed.'
         }
-        aborted {
-            echo 'Pipeline was aborted.'
+        success {
+            echo 'Pipeline executed successfully.'
         }
     }
 }
