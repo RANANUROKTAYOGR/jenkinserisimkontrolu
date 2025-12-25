@@ -6,6 +6,18 @@ pipeline {
                 echo "Checking out branch: ${env.BRANCH_NAME}"
             }
         }
+        stage('Build & Test') {
+            steps {
+                script {
+                    if (isUnix()) {
+                        sh './mvnw clean test'
+                    } else {
+                        // Windows agents typically use the mvnw.cmd wrapper
+                        bat '.\\mvnw.cmd clean test'
+                    }
+                }
+            }
+        }
         stage('Test') {
             steps {
                 script {
@@ -29,6 +41,9 @@ pipeline {
         }
     }
     post {
+        always {
+            junit '**/target/surefire-reports/*.xml'
+        }
         failure {
             echo 'Pipeline failed (tests or other stage).'
         }
