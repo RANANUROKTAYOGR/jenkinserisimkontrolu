@@ -32,7 +32,7 @@ public class AccessTest {
             System.out.println("Sunucu Yanıt Kodu: " + responseCode);
 
             // Eğer yanıt kodu 200 ise test geçer, değilse kalır.
-            assertEquals(String.valueOf(200), responseCode, "URL erişilebilir değil! Beklenen: 200, Gelen: " + responseCode);
+            assertEquals(200, responseCode);
 
         } catch (IOException e) {
             // Bağlantı hatası veya DNS sorunu olursa test fail eder.
