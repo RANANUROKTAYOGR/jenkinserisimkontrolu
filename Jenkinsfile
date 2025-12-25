@@ -34,16 +34,9 @@ pipeline {
         stage('Deploy') {
             // Bu aşama SADECE önceki 'Test' aşaması başarılı olursa çalışır.
             steps {
-<<<<<<< HEAD
                 echo 'Test Başarılı! Deploy işlemi başlatılıyor...'
                 // Buraya gerçek deploy komutlarınız gelecek (örn: scp, docker push, vb.)
                 sh 'echo "Deploy işlemi başarıyla tamamlandı."'
-=======
-                echo 'Test passed. Deploying application...'
-                // Add deployment commands here
-                echo 'Deployment successful for https://example.com'
-                echo 'deneme '
->>>>>>> 0f93af915e743480d79d5dba3e7442e00b15e774
             }
         }
     }

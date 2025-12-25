@@ -19,7 +19,7 @@ public class AccessTest {
                 .build();
 
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(new URI("https://examghhplgJJke.com"))
+                .uri(new URI("https://example.com"))
                 .timeout(Duration.ofSeconds(10))
                 .GET()
                 .build();
@@ -28,7 +28,7 @@ public class AccessTest {
         int status = response.statusCode();
 
         System.out.println("HTTP status for https://example.com : " + status);
-        // Force the test to fail (user requested)
-        Assertions.fail("Forced failure for testing. HTTP status: " + status);
+        // Assert that the status is 2xx
+        Assertions.assertTrue(status >= 200 && status < 300, "Expected 2xx response from example.com but got: " + status);
     }
 }
