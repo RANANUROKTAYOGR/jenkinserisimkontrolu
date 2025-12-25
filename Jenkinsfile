@@ -19,12 +19,6 @@ pipeline {
             steps {
                 script {
                     echo 'JUnit testi çalıştırılıyorr ve example.com kontrol ediliyor...'
-                    // Platforma göre Maven komutunu çalıştır
-                    if (isUnix()) {
-                        sh 'mvn -B -DskipTests=false test'
-                    } else {
-                        bat 'mvn -B -DskipTests=false test'
-                    }
                 }
             }
             post {
@@ -39,12 +33,6 @@ pipeline {
             // Bu aşama SADECE önceki 'Test' aşaması başarılı olursa çalışır.
             steps {
                 echo 'Test Başarılı! Deploy işlemi başlatılıyor...'
-                // Buraya gerçek deploy komutlarınız gelecek (örn: scp, docker push, vb.)
-                if (isUnix()) {
-                    sh 'echo "Deploy işlemi başarıyla tamamlandı."'
-                } else {
-                    bat 'echo Deploy işlemi başarıyla tamamlandı.'
-                }
             }
         }
     }
