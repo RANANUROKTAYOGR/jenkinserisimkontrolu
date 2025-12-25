@@ -18,7 +18,7 @@ pipeline {
         stage('Test & Access Check') {
             steps {
                 script {
-                    echo 'JUnit testi çalıştırılıyor ve example.com kontrol ediliyor...'
+                    echo 'JUnit testi çalıştırılıyorr ve example.com kontrol ediliyor...'
                     // Platforma göre Maven komutunu çalıştır
                     if (isUnix()) {
                         sh 'mvn -B -DskipTests=false test'
