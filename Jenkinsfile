@@ -19,14 +19,18 @@ pipeline {
             steps {
                 script {
                     echo 'JUnit testi çalıştırılıyor ve example.com kontrol ediliyor...'
-                    // Maven test komutu. Eğer test fail olursa pipeline burada durur.
-                    sh 'mvn clean test'
+                    // Platforma göre Maven komutunu çalıştır
+                    if (isUnix()) {
+                        sh 'mvn -B -DskipTests=false test'
+                    } else {
+                        bat 'mvn -B -DskipTests=false test'
+                    }
                 }
             }
             post {
                 always {
-                    // Test sonuçlarını Jenkins arayüzüne bas
-                    junit 'target/surefire-reports/*.xml'
+                    // Test sonuçlarını Jenkins arayüzüne bas (glob ile tüm target dizinlerine bak)
+                    junit '**/target/surefire-reports/*.xml'
                 }
             }
         }
@@ -36,7 +40,11 @@ pipeline {
             steps {
                 echo 'Test Başarılı! Deploy işlemi başlatılıyor...'
                 // Buraya gerçek deploy komutlarınız gelecek (örn: scp, docker push, vb.)
-                sh 'echo "Deploy işlemi başarıyla tamamlandı."'
+                if (isUnix()) {
+                    sh 'echo "Deploy işlemi başarıyla tamamlandı."'
+                } else {
+                    bat 'echo Deploy işlemi başarıyla tamamlandı.'
+                }
             }
         }
     }

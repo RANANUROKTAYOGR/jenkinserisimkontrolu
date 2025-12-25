@@ -1,7 +1,8 @@
-package com.example;
+package test.java.com.example;
 
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.Assertions;
+import org.junit.Test;
+
+import static org.junit.api.Assertions.*;
 
 import java.net.URI;
 import java.net.http.HttpClient;

@@ -31,7 +31,12 @@ bin/
 # Maven
 target/
 
-# IntelliJ
+# Git hooks and backups created by scripts
+.githooks/
+.githooks_backup*/
+.hooks_full_backup*/
+
+# IDEA and project files
 .idea/
 *.iml
 

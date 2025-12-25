@@ -1,0 +1,11 @@
+# Normalize line endings and avoid CRLF warnings for generated files
+* text=auto
+
+# Ensure XML and LST files use LF in repo
+*.xml text eol=lf
+*.lst text eol=lf
+*.properties text eol=lf
+
+# Ensure scripts keep executable bit on Unix
+*.sh text eol=lf
+
