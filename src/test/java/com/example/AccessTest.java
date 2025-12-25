@@ -19,7 +19,7 @@ public class AccessTest {
                 .build();
 
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(new URI("https://examghplke.com"))
+                .uri(new URI("https://examghhplke.com"))
                 .timeout(Duration.ofSeconds(10))
                 .GET()
                 .build();
